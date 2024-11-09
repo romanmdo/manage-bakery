@@ -1,1 +1,0 @@
-ventana.geometry("850x650")
