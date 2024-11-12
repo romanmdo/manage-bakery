@@ -5,7 +5,7 @@ from products import *  # Asegúrate de importar las funciones necesarias como a
 
 def mostrar_gui_productos(ventana_principal):
     # Crear la ventana de productos (se muestra encima de la ventana principal)
-    ventana_productos = ttkb.Toplevel(ventana_principal)  # Usamos Toplevel para abrir una nueva ventana secundaria
+    ventana_productos = ttkb.Toplevel(ventana_principal)
     ventana_productos.title("Gestión de Productos")
     ventana_productos.geometry("950x700")
     ventana_productos.resizable(False, False)
@@ -79,6 +79,40 @@ def mostrar_gui_productos(ventana_principal):
 
     # Llamar a la función para mostrar productos en la tabla al iniciar la interfaz
     mostrar_productos(tabla)
+
+def obtener_productos_ordenados_por_precio(orden):
+    """
+    Obtiene los productos de la base de datos ordenados por precio.
+    :param orden: "ASC" para ascendente, "DESC" para descendente.
+    :return: Lista de productos ordenada por precio.
+    """
+    # Aquí debes implementar la lógica para conectar con tu base de datos y obtener los productos ordenados.
+    # Simularemos una lista de productos de ejemplo.
+    productos = [
+        {'ID': 1, 'Nombre': 'Producto A', 'Precio': 10.0, 'Vencimiento': '2024-12-01'},
+        {'ID': 2, 'Nombre': 'Producto B', 'Precio': 20.0, 'Vencimiento': '2024-11-01'},
+        {'ID': 3, 'Nombre': 'Producto C', 'Precio': 5.0, 'Vencimiento': '2024-10-01'},
+    ]
+    # Ordenar la lista de productos por el campo "Precio"
+    productos_ordenados = sorted(productos, key=lambda x: x['Precio'], reverse=(orden == "DESC"))
+    return productos_ordenados
+
+def obtener_productos_ordenados_por_vencimiento(orden):
+    """
+    Obtiene los productos de la base de datos ordenados por vencimiento.
+    :param orden: "ASC" para ascendente, "DESC" para descendente.
+    :return: Lista de productos ordenada por vencimiento.
+    """
+    # Simularemos una lista de productos de ejemplo.
+    productos = [
+        {'ID': 1, 'Nombre': 'Producto A', 'Precio': 10.0, 'Vencimiento': '2024-12-01'},
+        {'ID': 2, 'Nombre': 'Producto B', 'Precio': 20.0, 'Vencimiento': '2024-11-01'},
+        {'ID': 3, 'Nombre': 'Producto C', 'Precio': 5.0, 'Vencimiento': '2024-10-01'},
+    ]
+    # Ordenar la lista de productos por el campo "Vencimiento"
+    productos_ordenados = sorted(productos, key=lambda x: x['Vencimiento'], reverse=(orden == "DESC"))
+    return productos_ordenados
+
 
     # Ejecutar la ventana de productos
     ventana_productos.mainloop()
