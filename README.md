@@ -69,32 +69,35 @@ La aplicación permite a los usuarios agregar, editar, eliminar y ordenar produc
 
 ### Configuración de la Base de Datos
 
-Para crear la base de datos y las tablas, sigue estos pasos:
+Para configurar la base de datos MySQL para esta aplicación, sigue estos pasos:
 
-1. Conéctate a MySQL y crea la base de datos:
+1. **Ejecutar el archivo SQL**
 
-   ```sql
-   CREATE DATABASE panaderia;
-   USE panaderia;
-   ```
+   El archivo `db_tables.sql` en el proyecto contiene el esquema completo de la base de datos, incluyendo todas las tablas necesarias (`empleados`, `productos`, `categoria`, etc.). Puedes ejecutarlo para crear la base de datos y sus tablas de forma rápida.
 
-2. Crea las tablas principales:
+   - **Opción 1: Línea de comandos**
 
-   ```sql
-   CREATE TABLE productos (
-       productosID INT AUTO_INCREMENT PRIMARY KEY,
-       nombre VARCHAR(50) NOT NULL,
-       precio DECIMAL(10, 2) NOT NULL,
-       vencimiento DATE NOT NULL
-   );
+      Abre una terminal y ejecuta el siguiente comando (reemplaza `usuario` y `db_tables.sql` con tu nombre de usuario y el nombre del archivo):
 
-   -- Aquí puedes añadir las otras tablas como 'empleados', 'categoría', etc.
-   ```
+      ```bash
+      mysql -u usuario -p < db_tables.sql
+      ```
 
-3. Configura las credenciales en `db_config.py` para conectar tu aplicación a esta base de datos.
+   - **Opción 2: MySQL Workbench**
+
+      1. Abre MySQL Workbench y selecciona tu conexión.
+      2. Ve a **File > Open SQL Script** y abre el archivo `db_tables.sql`.
+      3. Ejecuta el script para crear todas las tablas necesarias en la base de datos `panaderia`.
+
+2. **Configurar credenciales**
+
+   Ajusta las credenciales en `db_config.py` para conectar la aplicación a la base de datos MySQL. Asegúrate de que las credenciales sean correctas y de que tienes acceso a la base de datos creada.
+
+**Nota**: Asegúrate de que el servidor MySQL esté en funcionamiento antes de ejecutar estos pasos.
 
 ---
 
+Esta modificación le da un flujo lógico a la configuración de la base de datos en el README, primero indicando cómo cargar el esquema y luego cómo ajustar las credenciales de acceso.
 ### Uso
 
 1. Ejecuta la aplicación:
@@ -172,4 +175,4 @@ Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENS
 
 Para preguntas o sugerencias, puedes contactarme a través de mi perfil de GitHub o por correo electrónico: [romanmdo912@gmail.com](mailto:romanmdo912@gmail.com).
 
----
+--- 

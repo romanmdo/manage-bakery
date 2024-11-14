@@ -2,6 +2,7 @@
 from db_config import conectar
 from tkinter import messagebox
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 # Funciones CRUD (Agregar, Editar, Eliminar, Mostrar)
 def agregar_producto(nombre, precio, vencimiento):
@@ -138,20 +139,14 @@ def buscar_producto(nombre_buscar, tabla):
     conn.close()
 
 def graficar_precios():
-    '''
-    Graficar precios con la librería matplotlib
-    '''
-    import matplotlib.pyplot as plt
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT nombre, precio FROM productos")  # Consulta a la DB
+    cursor.execute("SELECT nombre, precio FROM productos")
     productos = cursor.fetchall()
     conn.close()
-
     # Extraer nombres y precios para la gráfica
     nombres = [producto[0] for producto in productos]
     precios = [producto[1] for producto in productos]
-
     # Crear la gráfica
     plt.figure(figsize=(10, 6))
     plt.barh(nombres, precios, color='skyblue')
@@ -159,6 +154,5 @@ def graficar_precios():
     plt.ylabel('Producto')
     plt.title('Precios de Productos')
     plt.tight_layout()
-
     # Mostrar la gráfica
     plt.show()
