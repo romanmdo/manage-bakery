@@ -202,10 +202,10 @@ La interfaz gráfica facilita la interacción con la base de datos, y las funcio
 ### Capturas de Pantalla
 
 - **Gestión de productos**:  
-  ![Gestión de productos](/imagenes/registro-productos.png)
+  ![Gestión de productos](./registro-productos.png)
 
 - **Gestión de ventas**:  
-  ![Gestión de ventas](/imagenes/registro-ventas.png)
+  ![Gestión de ventas](./registro-ventas.png)
 
 ---
 
