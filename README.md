@@ -1,178 +1,247 @@
+---
+
+# Sistema de Gestión para Panadería
+
+Este proyecto es una aplicación integral para gestionar productos, clientes, proveedores, materia prima y ventas en una panadería. Está desarrollada en **Python** con una interfaz gráfica construida en **Tkinter** y conecta con una base de datos **MySQL** para el almacenamiento de datos.
+
+Durante el desarrollo, se utilizó **ChatGPT** como herramienta de asistencia para optimizar la generación de documentación, solución de problemas y estructuración de código. Esta herramienta permitió acelerar ciertos procesos, pero todas las funcionalidades fueron diseñadas, implementadas y personalizadas para cumplir con los objetivos del proyecto.
+
 
 ---
 
-# Proyecto de Gestión de Productos para Panadería
-
-Este proyecto es una aplicación de gestión de productos en Python que utiliza Tkinter para la interfaz gráfica y MySQL para la base de datos.
-
 ## Tabla de Contenidos
 
-1. [Descripción General](#descripción-general)
-2. [Requisitos](#requisitos)
-3. [Instalación](#instalación)
-4. [Estructura del Proyecto](#estructura-del-proyecto)
-5. [Configuración de la Base de Datos](#configuración-de-la-base-de-datos)
-6. [Uso](#uso)
-7. [Funcionalidades](#funcionalidades)
-8. [Capturas de Pantalla](#capturas-de-pantalla)
-9. [Posibles Problemas y Soluciones](#posibles-problemas-y-soluciones)
-10. [Referencias en el Código](#referencias-en-el-código)
-11. [Contribuciones](#contribuciones)
-12. [Licencia](#licencia)
-13. [Contacto](#contacto)
+1. [Descripción General](#descripción-general)  
+2. [Requisitos](#requisitos)  
+3. [Instalación](#instalación)  
+4. [Estructura del Proyecto](#estructura-del-proyecto)  
+5. [Configuración de la Base de Datos](#configuración-de-la-base-de-datos)  
+6. [Uso](#uso)  
+7. [Funcionalidades](#funcionalidades)  
+8. [Capturas de Pantalla](#capturas-de-pantalla)  
+9. [Posibles Problemas y Soluciones](#posibles-problemas-y-soluciones)  
+10. [Contribuciones](#contribuciones)  
+11. [Licencia](#licencia)  
+12. [Contacto](#contacto)  
 
 ---
 
 ### Descripción General
 
-La aplicación permite a los usuarios agregar, editar, eliminar y ordenar productos en una base de datos de MySQL. También cuenta con una interfaz gráfica que facilita la interacción con la base de datos.
+El sistema permite gestionar múltiples aspectos de la panadería, tales como:  
+- Gestión de **productos** (agregar, editar, eliminar, ordenar y graficar precios).  
+- Gestión de **clientes** (registro de clientes con datos básicos).  
+- Gestión de **proveedores** (administrar contactos y descripciones).  
+- Gestión de **materia prima** (marcas, nombres y peso de insumos).  
+- Gestión de **ventas** (registro de fecha, total y método de pago).
+
+La interfaz gráfica facilita la interacción con la base de datos, y las funcionalidades están organizadas en módulos separados para mantener un código limpio y reutilizable.
+
+---
 
 ### Requisitos
 
-- Python 3.x
-- Tkinter (interfaz gráfica)
-- MySQL (base de datos)
-- Paquetes adicionales: `mysql-connector-python`, `matplotlib`, `ttkbootstrap`
+- **Python** 3.x  
+- **MySQL** (servidor de base de datos)  
+- Bibliotecas adicionales:  
+  ```bash
+  pip install mysql-connector-python ttkbootstrap matplotlib
+  ```
 
 ---
 
 ### Instalación
 
-1. Clona el repositorio:
+1. **Clona el repositorio**:  
    ```bash
-   git clone https://github.com/tu_usuario/proyecto_panaderia.git
+   git clone https://github.com/romanmdo/manage-bakery.git
    ```
 
-2. Instala las dependencias:
+2. **Instala las dependencias**:  
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Configura tu base de datos MySQL y ajusta las credenciales en el archivo `db_config.py`.
+3. **Configura la base de datos**:  
+   Ajusta las credenciales de acceso en el archivo `config/db_config.py`.
 
-**Nota**: Asegúrate de que MySQL esté en funcionamiento y de que tienes acceso para crear bases de datos y tablas.
+4. **Inicia la aplicación**:  
+   ```bash
+   python main.py
+   ```
 
 ---
 
 ### Estructura del Proyecto
 
 ```
-/proyecto_panaderia
-├── main.py                 # Código principal de la aplicación
-├── db_config.py            # Configuración de conexión a la base de datos
-├── gui_helpers.py          # Funciones auxiliares para la interfaz gráfica
-├── README.md               # Documentación del proyecto
-└── requirements.txt        # Dependencias del proyecto
+/sistema_panaderia
+├── main.py                       # Código principal de la aplicación
+├── gui
+│   ├── gui_productos.py          # Interfaz para gestionar productos
+│   ├── gui_clientes.py           # Interfaz para gestionar clientes
+│   ├── gui_proveedores.py        # Interfaz para gestionar proveedores
+│   ├── gui_materia_prima.py      # Interfaz para gestionar materia prima
+│   ├── gui_ventas.py             # Interfaz para gestionar ventas
+├── config
+│   ├── db_config.py              # Configuración de conexión MySQL
+│   ├── config_productos.py       # Funciones relacionadas con productos
+│   ├── config_clientes.py        # Funciones relacionadas con clientes
+│   ├── config_proveedores.py     # Funciones relacionadas con proveedores
+│   ├── config_materia_prima.py   # Funciones relacionadas con materia prima
+│   ├── config_ventas.py          # Funciones relacionadas con ventas
+├── requirements.txt              # Dependencias del proyecto
+└── README.md                     # Documentación
 ```
 
 ---
 
 ### Configuración de la Base de Datos
 
-Para configurar la base de datos MySQL para esta aplicación, sigue estos pasos:
+1. **Crear las tablas**:  
+   Ejecuta el archivo SQL proporcionado (`db_tables.sql`) para crear la estructura completa de la base de datos.  
 
-1. **Ejecutar el archivo SQL**
+   ```sql
+      create database panaderia;
+      use panaderia;
 
-   El archivo `db_tables.sql` en el proyecto contiene el esquema completo de la base de datos, incluyendo todas las tablas necesarias (`empleados`, `productos`, `categoria`, etc.). Puedes ejecutarlo para crear la base de datos y sus tablas de forma rápida.
+      CREATE TABLE empleados(
+      empleadosID INT auto_increment PRIMARY KEY COMMENT   'CLAVE PRIMARIA',
+      nombre VARCHAR (25) NOT NULL   COMMENT 'NOMBRE DEL EMPLEADO, DATO NO NULO ',
+      edad INT (2)   NOT NULL COMMENT 'LA EDAD  ',
+      genero VARCHAR(20)   COMMENT 'PUEDE SER NULO ',
+      telefono INT (10) NOT NULL
+      );
 
-   - **Opción 1: Línea de comandos**
+      CREATE TABLE productos(
+      productosID  INT  auto_increment PRIMARY KEY  ,
+      nombre VARCHAR (50) NOT NULL,       
+      precio DECIMAL  NOT NULL COMMENT 'el precio de los productos',
+      vencimiento DATE  NOT NULL COMMENT  ' FECHAS DE VENCIMIENTO '
+      );
 
-      Abre una terminal y ejecuta el siguiente comando (reemplaza `usuario` y `db_tables.sql` con tu nombre de usuario y el nombre del archivo):
+      CREATE TABLE categoria(
+      categoriaID INT auto_increment PRIMARY KEY   ,
+      descripcion VARCHAR(50) NOT NULL  COMMENT  'DATO NECESARIO ',
+      nombre VARCHAR (25) NOT NULL
+      );
 
-      ```bash
-      mysql -u usuario -p < db_tables.sql
-      ```
+      CREATE TABLE proveedores(
+      proveedoresID INT auto_increment PRIMARY KEY  ,
+      nombre VARCHAR (25) NOT NULL,
+      telefono INT (10)  NOT NULL,
+      descripcion VARCHAR(50) NOT NULL
+      );
 
-   - **Opción 2: MySQL Workbench**
+      CREATE TABLE materia_prima(
+      materia_primaID INT auto_increment PRIMARY KEY ,
+      marca VARCHAR(15) NOT NULL,
+      nombre VARCHAR (25) NOT NULL,
+      peso DECIMAL
+      );
 
-      1. Abre MySQL Workbench y selecciona tu conexión.
-      2. Ve a **File > Open SQL Script** y abre el archivo `db_tables.sql`.
-      3. Ejecuta el script para crear todas las tablas necesarias en la base de datos `panaderia`.
+      CREATE TABLE cliente (
+      clienteID INT auto_increment PRIMARY KEY ,
+      nombre VARCHAR (25) NOT NULL,
+      apellido VARCHAR(50) NOT NULL,
+      telefono INT (10),
+      DNI INT (10)
+      );
 
-2. **Configurar credenciales**
+      CREATE TABLE venta(
+      ventaID INT auto_increment PRIMARY KEY ,
+      fecha DATE,
+      total_de_venta DECIMAL,
+      metodo_de_pago VARCHAR(15) NOT NULL
+      );
+   ```
 
-   Ajusta las credenciales en `db_config.py` para conectar la aplicación a la base de datos MySQL. Asegúrate de que las credenciales sean correctas y de que tienes acceso a la base de datos creada.
-
-**Nota**: Asegúrate de que el servidor MySQL esté en funcionamiento antes de ejecutar estos pasos.
+2. **Ajustar credenciales**:  
+   Edita `db_config.py` con los valores de conexión adecuados.
 
 ---
 
-Esta modificación le da un flujo lógico a la configuración de la base de datos en el README, primero indicando cómo cargar el esquema y luego cómo ajustar las credenciales de acceso.
 ### Uso
 
-1. Ejecuta la aplicación:
+1. Ejecuta la aplicación:  
    ```bash
    python main.py
    ```
 
-2. Interactúa con la interfaz gráfica para agregar, editar, eliminar y ordenar productos. 
-
-**Ejemplo de uso**:
-- Para agregar un producto, ingresa el nombre, precio y fecha de vencimiento y haz clic en "Agregar".
-- Para ordenar productos, utiliza los botones de "Ordenar por Precio" o "Ordenar por Vencimiento".
+2. Selecciona la sección que deseas usar:  
+   - Gestión de productos.  
+   - Administración de clientes.  
+   - Manejo de proveedores.  
+   - Control de materia prima.  
+   - Registro de ventas.  
 
 ---
 
 ### Funcionalidades
 
-La aplicación permite:
-- **Agregar productos**: Añade un nuevo producto a la base de datos.
-- **Editar productos**: Modifica un producto existente.
-- **Eliminar productos**: Elimina un producto de la base de datos.
-- **Ordenar productos**: Ordena la lista de productos por precio o vencimiento en orden ascendente o descendente.
-- **Graficar precios**: Muestra una gráfica con los precios de los productos (usando `matplotlib`).
+- **Productos**:  
+  - Agregar, editar y eliminar productos.  
+  - Ordenar productos por precio o fecha de vencimiento.  
+  - Graficar precios.  
+
+- **Clientes**:  
+  - Registrar clientes con datos básicos (nombre, apellido, DNI, etc.).  
+  - Editar o eliminar clientes.  
+
+- **Proveedores**:  
+  - Registrar proveedores con descripción, nombre y teléfono.  
+
+- **Materia Prima**:  
+  - Administrar insumos básicos (marca, nombre, peso).  
+
+- **Ventas**:  
+  - Registrar ventas con total, fecha y método de pago.  
 
 ---
 
 ### Capturas de Pantalla
 
-Aquí hay un ejemplo de cómo se ve la interfaz de la aplicación:
+- **Gestión de productos**:  
+  ![Gestión de productos](/imagenes/registro-productos.png)
 
-![Interfaz de la aplicación](/ss.png)
+- **Gestión de ventas**:  
+  ![Gestión de ventas](/imagenes/registro-ventas.png)
 
 ---
 
 ### Posibles Problemas y Soluciones
 
-1. **Error de conexión MySQL**: Asegúrate de que el servidor de MySQL esté en ejecución y que las credenciales en `db_config.py` sean correctas.
-2. **Problemas con la interfaz gráfica**: Verifica que Tkinter y los paquetes necesarios (`ttkbootstrap`, `matplotlib`, `mysql-connector-python`) estén instalados correctamente.
+1. **Error de conexión a la base de datos**:  
+   - Verifica las credenciales en `db_config.py`.  
+   - Asegúrate de que el servidor MySQL esté en ejecución.  
 
----
+2. **Problemas con las dependencias**:  
+   - Usa el comando `pip install -r requirements.txt`.  
 
-### Referencias en el Código
-
-El código está documentado para facilitar su comprensión. Las secciones clave están comentadas, y se incluyen referencias a funciones y módulos auxiliares.
-
-**Ejemplo de comentario en el código**:
-
-```python
-# Esta función agrega un producto a la base de datos
-def agregar_producto():
-    ...
-```
+3. **Interfaz gráfica no responde**:  
+   - Verifica la instalación de `ttkbootstrap` y `tkinter`.  
 
 ---
 
 ### Contribuciones
 
-Las contribuciones son bienvenidas. Si deseas mejorar esta aplicación, puedes hacer un fork del repositorio, crear una nueva rama, hacer tus cambios y enviar un pull request.
-
-1. Haz un fork del proyecto
-2. Crea una rama (`git checkout -b feature/nueva_funcionalidad`)
-3. Confirma tus cambios (`git commit -am 'Añadir nueva funcionalidad'`)
-4. Sube la rama (`git push origin feature/nueva_funcionalidad`)
-5. Abre un pull request
+Contribuciones, reportes de errores o sugerencias son bienvenidos. Sigue estos pasos:  
+1. Haz un fork del proyecto.  
+2. Crea una rama nueva (`git checkout -b feature/tu_funcionalidad`).  
+3. Haz un pull request con tus cambios.  
 
 ---
 
 ### Licencia
 
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+Este proyecto está licenciado bajo la **Licencia MIT**. Consulta el archivo `LICENSE` para más detalles.
 
 ---
 
 ### Contacto
 
-Para preguntas o sugerencias, puedes contactarme a través de mi perfil de GitHub o por correo electrónico: [romanmdo912@gmail.com](mailto:romanmdo912@gmail.com).
+Si tienes dudas o sugerencias, puedes contactarme en:  
+- **Email**: [romanmdo912@gmail.com](mailto:romanmdo912@gmail.com)  
+- **GitHub**: [Mi Perfil](https://github.com/romanmdo/)
 
 --- 
